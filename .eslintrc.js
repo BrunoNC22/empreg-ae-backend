@@ -22,5 +22,9 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     'semi': ['error', 'never'],
+    'indent': ['error', 2],
+    'no-var': 'error',
+    'eqeqeq': ['error', 'always'],
+    'no-console': 'warn'
   },
 };

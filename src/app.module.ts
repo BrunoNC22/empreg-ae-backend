@@ -1,10 +1,19 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { Module, ValidationPipe } from '@nestjs/common'
+import { JobOpportunityController } from './application/controllers/JobOpportunity.controller'
+import { JobOpportunityService } from './application/services/JobOpportiunity.service'
+import { ConfigModule } from '@nestjs/config'
+import { APP_PIPE } from '@nestjs/core'
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+  ],
+  controllers: [JobOpportunityController],
+  providers: [
+    JobOpportunityService,
+    { provide: APP_PIPE, useClass: ValidationPipe },
+  ],
 })
 export class AppModule {}

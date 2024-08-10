@@ -2,14 +2,27 @@ import { INestApplication } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { AppModule } from '../../src/app.module'
 import * as request from 'supertest'
+import { JobOpportunityService } from '../../src/application/services/JobOpportiunity.service'
 
 describe('JobOpportunityController', () => {
   let app: INestApplication
+  const jobOpportunityService = {
+    getJobOpportunities: (jobopportunityId: string) => {
+      return []
+    },
+
+    createJobOpportunity: (createJobopportunityDto: any) => {
+      return createJobopportunityDto
+    },
+  }
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile()
+    })
+      .overrideProvider(JobOpportunityService)
+      .useValue(jobOpportunityService)
+      .compile()
 
     app = moduleFixture.createNestApplication()
     await app.init()

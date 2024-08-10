@@ -8,6 +8,7 @@ async function bootstrap() {
   app.enableCors({
     origin: configService.get<string>('CORS_ORIGIN'),
   })
-  await app.listen(3000)
+  const app_port = configService.get<string>('APP_PORT')
+  await app.listen(app_port ? app_port : 3000)
 }
 bootstrap()

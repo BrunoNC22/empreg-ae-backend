@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common'
-import JobOpportunity from '../../domain/JobOpportunity'
+import { Injectable, NotFoundException } from '@nestjs/common'
+import JobOpportunity from '../../domain/entities/JobOpportunity'
 import { CreateJobOpportunityDto } from '../JobOpportunityDto'
 
 @Injectable()
@@ -11,9 +11,14 @@ export class JobOpportunityService {
   }
 
   getJobOpportunity = (jobopportunityId: string) => {
-    return this.jobOpportinuties.find((jobopportunity) => {
+    const foundJobOpportunity = this.jobOpportinuties.find((jobopportunity) => {
       jobopportunity.getId() === jobopportunityId
     })
+
+    if (foundJobOpportunity) {
+      return foundJobOpportunity
+    }
+    throw new NotFoundException('Job opportunity not found')
   }
 
   createJobOpportunity = (createJobopportunityDto: CreateJobOpportunityDto) => {

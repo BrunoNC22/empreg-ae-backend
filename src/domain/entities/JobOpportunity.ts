@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
-import { LocationType } from './types/LocationType'
-import { ContactType } from './types/ContactType'
+import { LocationType } from '../types/LocationType'
+import { ContactType } from '../types/ContactType'
 
 export default class JobOpportunity {
   private id: string

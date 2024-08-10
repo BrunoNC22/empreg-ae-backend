@@ -1,0 +1,54 @@
+version: '3.9'
+
+services:
+  pgsql:
+    image: postgres
+    ports:
+      - ${DATABASE_PORT}:5432
+    container_name: ${DATABASE_HOST}
+    restart: always
+    environment:
+          - POSTGRES_USER=${DATABASE_USERNAME}
+          - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+          - POSTGRES_DB=${DATABASE_NAME}
+    volumes:
+      - postgres-vol:/var/lib/postgresql/data
+    networks:
+      - iff
+  app:
+    
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    networks:
+      - iff
+    container_name: empregae-backend
+    volumes:
+      - .:/app
+    links:   #Novo atributo incluso
+      - pgsql
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - pgsql
+
+  pgadmin4:
+    image: dpage/pgadmin4
+    container_name: aws_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_USER}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    ports:
+      - '8080:80'
+
+    networks:
+      - iff
+    depends_on:
+      - pgsql
+  
+networks:
+  iff:
+    driver: bridge
+volumes:
+  postgres-vol:

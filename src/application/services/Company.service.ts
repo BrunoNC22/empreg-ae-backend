@@ -9,20 +9,20 @@ export class CompanyService {
     @InjectRepository(Company) private companyRepository: Repository<Company>,
   ) {}
 
-  findAll(): Promise<Company[]> {
-    return this.companyRepository.find()
+  async findAll() {
+    return await this.companyRepository.find()
   }
 
-  findOne(id: string): Promise<Company | null> {
-    return this.companyRepository.findOneBy({ id })
+  async findOne(id: string) {
+    return await this.companyRepository.findOneBy({ id })
   }
 
-  async remove(id: number): Promise<void> {
-    await this.companyRepository.delete(id)
+  async remove(id: number) {
+    return await this.companyRepository.delete(id)
   }
 
-  async create({ id, companyName }: Company): Promise<void> {
-    await this.companyRepository.save({
+  async create({ id, companyName }: Company) {
+    return await this.companyRepository.save({
       id,
       companyName,
     })

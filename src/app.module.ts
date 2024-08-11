@@ -8,6 +8,7 @@ import { DataSource } from 'typeorm'
 import { Company } from './infra/entities/Company.entity'
 import { CompanyService } from './application/services/Company.service'
 import { CompanyController } from './application/controllers/Company.controller'
+import { JobOpportiunity } from './infra/entities/JobOpportunity.entity'
 
 @Module({
   imports: [
@@ -29,7 +30,7 @@ import { CompanyController } from './application/controllers/Company.controller'
       }),
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([Company]),
+    TypeOrmModule.forFeature([Company, JobOpportiunity]),
   ],
   controllers: [JobOpportunityController, CompanyController],
   providers: [

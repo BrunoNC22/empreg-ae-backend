@@ -1,18 +1,26 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import JobOpportunity from '../../domain/entities/JobOpportunity'
-import { CreateJobOpportunityDto } from '../JobOpportunityDto'
+import { CreateJobOpportunityDto } from '../dto/JobOpportunityDto'
+import { InjectRepository } from '@nestjs/typeorm'
+import { JobOpportiunity as JobOpportiunityEntity } from '../../infra/entities/JobOpportunity.entity'
+import { Repository } from 'typeorm'
+import { CompanyService } from './Company.service'
 
 @Injectable()
 export class JobOpportunityService {
-  private readonly jobOpportinuties: JobOpportunity[] = []
+  constructor(
+    @InjectRepository(JobOpportiunityEntity)
+    private jobOpportunityRepository: Repository<JobOpportiunityEntity>,
+    private companyService: CompanyService,
+  ) {}
 
-  getJobOpportunities = () => {
-    return this.jobOpportinuties
+  getJobOpportunities = async () => {
+    return await this.jobOpportunityRepository.find()
   }
 
-  getJobOpportunity = (jobopportunityId: string) => {
-    const foundJobOpportunity = this.jobOpportinuties.find((jobopportunity) => {
-      jobopportunity.getId() === jobopportunityId
+  getJobOpportunity = async (jobopportunityId: string) => {
+    const foundJobOpportunity = await this.jobOpportunityRepository.findOneBy({
+      id: jobopportunityId,
     })
 
     if (foundJobOpportunity) {
@@ -21,7 +29,19 @@ export class JobOpportunityService {
     throw new NotFoundException('Job opportunity not found')
   }
 
-  createJobOpportunity = (createJobopportunityDto: CreateJobOpportunityDto) => {
+  createJobOpportunity = async (
+    createJobopportunityDto: CreateJobOpportunityDto,
+  ) => {
+    const foundCompany = await this.companyService.findOne(
+      createJobopportunityDto.companyId,
+    )
+
+    if (!foundCompany) {
+      throw new NotFoundException(
+        `Company with id ${createJobopportunityDto.companyId} not found.`,
+      )
+    }
+
     const newJobOpportunity = new JobOpportunity(
       createJobopportunityDto.companyId,
       createJobopportunityDto.location,
@@ -42,8 +62,15 @@ export class JobOpportunityService {
       createJobopportunityDto.education,
       createJobopportunityDto.experience,
     )
-
-    this.jobOpportinuties.push(newJobOpportunity)
+    await this.jobOpportunityRepository.save({
+      id: newJobOpportunity.getId(),
+      title: newJobOpportunity.getTitle(),
+      description: newJobOpportunity.getDescription(),
+      company: {
+        id: foundCompany.id,
+        companyName: foundCompany.companyName,
+      },
+    })
     return newJobOpportunity
   }
 }

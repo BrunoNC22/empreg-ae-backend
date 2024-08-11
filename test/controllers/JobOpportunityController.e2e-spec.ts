@@ -7,11 +7,11 @@ import { JobOpportunityService } from '../../src/application/services/JobOpporti
 describe('JobOpportunityController', () => {
   let app: INestApplication
   const jobOpportunityService = {
-    getJobOpportunities: (jobopportunityId: string) => {
+    getJobOpportunities: async (jobopportunityId: string) => {
       return []
     },
 
-    createJobOpportunity: (createJobopportunityDto: any) => {
+    createJobOpportunity: async (createJobopportunityDto: any) => {
       return createJobopportunityDto
     },
   }

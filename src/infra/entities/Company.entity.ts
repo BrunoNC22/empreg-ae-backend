@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm'
+import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm'
+import { JobOpportiunity } from './JobOpportunity.entity'
 
 @Entity()
 export class Company {
@@ -9,4 +10,10 @@ export class Company {
 
   @Column()
   public companyName: string
+
+  @OneToMany(
+    () => JobOpportiunity,
+    (jobOpportiunity) => jobOpportiunity.company,
+  )
+  public jobOpportunities: JobOpportiunity[]
 }

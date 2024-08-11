@@ -9,7 +9,12 @@ export class CompanyController {
   @Post()
   create(@Body() newCompany: { companyName: string }) {
     const id = v4()
-    this.companyService.create({ id, companyName: newCompany.companyName })
+    const createdCompany = this.companyService.create({
+      id,
+      companyName: newCompany.companyName,
+      jobOpportunities: [],
+    })
+    return createdCompany
   }
 
   @Get()

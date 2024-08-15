@@ -1,0 +1,50 @@
+version: '3.9'
+
+services:
+  pgsql:
+    image: postgres
+    ports:
+      - ${DATABASE_PORT}:5432
+    container_name: ${DATABASE_HOST}
+    restart: always
+    environment:
+      - POSTGRES_USER=${DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+    volumes:
+      - postgres-vol:/var/lib/postgresql/data
+    networks:
+      - iff
+
+  app:
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    networks:
+      - iff
+    container_name: empregae-backend
+    volumes:
+      - .:/app
+    links:
+      - pgsql
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - pgsql
+
+  empregae-front-end:
+    image: brunonascimentocampos/empregae-front-end
+    container_name: empregae-frontend
+    ports:
+      - '8080:80'
+    networks:
+      - iff
+    depends_on:
+      - app
+
+networks:
+  iff:
+    driver: bridge
+
+volumes:
+  postgres-vol:

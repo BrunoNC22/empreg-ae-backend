@@ -62,7 +62,8 @@ export class JobOpportunityService {
       createJobopportunityDto.education,
       createJobopportunityDto.experience,
     )
-    await this.jobOpportunityRepository.save({
+    const savedJobOpportunity = await this.jobOpportunityRepository.save({
+      ...newJobOpportunity,
       id: newJobOpportunity.getId(),
       title: newJobOpportunity.getTitle(),
       description: newJobOpportunity.getDescription(),
@@ -71,6 +72,20 @@ export class JobOpportunityService {
         companyName: foundCompany.companyName,
       },
     })
-    return newJobOpportunity
+    return savedJobOpportunity
+  }
+
+  delete = async (jobOpportunityId: string) => {
+    const foundJobOpportunity = await this.jobOpportunityRepository.findOneBy({
+      id: jobOpportunityId,
+    })
+
+    if (!foundJobOpportunity) {
+      throw new NotFoundException(
+        `Job opportunity with id ${jobOpportunityId} not found.`,
+      )
+    }
+
+    this.jobOpportunityRepository.delete(jobOpportunityId)
   }
 }

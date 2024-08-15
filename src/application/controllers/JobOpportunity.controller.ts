@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Post } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common'
 import { JobOpportunityService } from '../services/JobOpportiunity.service'
 import { CreateJobOpportunityDto } from '../dto/JobOpportunityDto'
 import { ConfigService } from '@nestjs/config'
-import { ApiCreatedResponse } from '@nestjs/swagger'
+import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger'
 
+@ApiTags('job opportunity')
 @Controller('job-opportunities')
 export class JobOpportunityController {
   constructor(
@@ -16,16 +17,28 @@ export class JobOpportunityController {
     description: 'A vaga de emprego foi cirada com sucesso!',
     type: CreateJobOpportunityDto,
   })
-  create(@Body() createJobOpportunityDto: CreateJobOpportunityDto) {
-    const newJobOpportunity = this.jobOpportunityService.createJobOpportunity(
-      createJobOpportunityDto,
-    )
+  async create(@Body() createJobOpportunityDto: CreateJobOpportunityDto) {
+    const newJobOpportunity =
+      await this.jobOpportunityService.createJobOpportunity(
+        createJobOpportunityDto,
+      )
     return newJobOpportunity
   }
 
   @Get()
-  getAll() {
-    const jobOpportunities = this.jobOpportunityService.getJobOpportunities()
+  async getAll() {
+    const jobOpportunities =
+      await this.jobOpportunityService.getJobOpportunities()
     return jobOpportunities
+  }
+
+  @Get(':id')
+  async getOne(@Param('id') id: string) {
+    return await this.jobOpportunityService.getJobOpportunity(id)
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    return await this.jobOpportunityService.delete(id)
   }
 }

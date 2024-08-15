@@ -9,6 +9,7 @@ import { Company } from './infra/entities/Company.entity'
 import { CompanyService } from './application/services/Company.service'
 import { CompanyController } from './application/controllers/Company.controller'
 import { JobOpportiunity } from './infra/entities/JobOpportunity.entity'
+import { Location } from './infra/entities/value_objects/Location.entity'
 
 @Module({
   imports: [
@@ -30,7 +31,7 @@ import { JobOpportiunity } from './infra/entities/JobOpportunity.entity'
       }),
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([Company, JobOpportiunity]),
+    TypeOrmModule.forFeature([Company, JobOpportiunity, Location]),
   ],
   controllers: [JobOpportunityController, CompanyController],
   providers: [

@@ -1,73 +1,93 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Empreg-ae Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este é o backend da aplicação **Empreg-ae**, uma plataforma que facilita o processo de recrutamento e empregabilidade.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Tecnologias Utilizadas
 
-## Description
+- **Node.js**
+- **NestJS**
+- **PostgreSQL**
+- **Docker**
+- **Docker Compose**
+- **TypeORM**
+- **Swagger**
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Pré-requisitos
 
-## Installation
+Antes de começar, você precisará ter as seguintes ferramentas instaladas em sua máquina:
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- [Git](https://git-scm.com/)
+
+## Instruções para Clonar o Repositório
+
+Clone o repositório em sua máquina local:
 
 ```bash
-$ npm install
+git clone https://github.com/BrunoNC22/empreg-ae-backend.git
+cd empreg-ae-backend
 ```
 
-## Running the app
+## Configuração do Ambiente
 
-```bash
-# development
-$ npm run start
+1 - Crie um arquivo .env na raiz do projeto com as seguintes variáveis de ambiente:
 
-# watch mode
-$ npm run start:dev
+```
+# Configuração do CORS
+CORS_ORIGIN=http://empregae-frontend:8080
 
-# production mode
-$ npm run start:prod
+# Configuração da Aplicação
+APP_PORT=9999
+
+# Configuração do Banco de Dados
+DATABASE_TYPE=postgres
+DATABASE_HOST=empregae-db
+DATABASE_PORT=5432
+DATABASE_USERNAME=postgres
+DATABASE_PASSWORD=your_database_password
+DATABASE_NAME=empregae
+DATABASE_AUTO_LOAD_ENTITIES=true
+DATABASE_SYNCHRONIZE=true
+
+# Configuração do PgAdmin
+PGADMIN_USER=your_pgadmin_email
+PGADMIN_PASSWORD=your_pgadmin_password
 ```
 
-## Test
+## Executando a Aplicação com Docker Compose MODO DE DESENVOLVIMENTO
+Para subir a aplicação e seus serviços (banco de dados, PgAdmin), execute:
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+```
+docker compose up
 ```
 
-## Support
+Este comando irá:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+ - Construir as imagens necessárias.
+ - Criar e iniciar os containers para o backend, PostgreSQL e PgAdmin.
 
-## Stay in touch
+ ## Executando a Aplicação com Docker Compose MODO DE PRODUÇÃO
+Para subir a aplicação e seus serviços (banco de dados, PgAdmin), execute:
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```
+docker compose -f docker-compose.prod.yaml up
+```
 
-## License
+Este comando irá:
 
-Nest is [MIT licensed](LICENSE).
+ - Construir as imagens necessárias.
+ - Criar e iniciar os containers para o backend, PostgreSQL e o frontend.
+
+**A aplicação estará rodando em: http://localhost:9999**
+
+### Acessando o PgAdmin (somente desenvolvimento)
+PgAdmin estará disponível em: http://localhost:8080
+Utilize o e-mail e senha configurados no arquivo .env para acessar o PgAdmin.
+
+### Acessando o frontend (somente produção)
+O frontend estará disponivel em: http://localhost:8080/login
+Entre com suas informações para explorar a aplicação
+
+### Documentação da API
+A documentação da API pode ser acessada via Swagger em: http://localhost:9999/documentation

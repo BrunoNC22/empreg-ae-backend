@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:
+  app:
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    container_name: empregae-backend
+    volumes:
+      - .:/app
+    links:
+      - pgsql
+    build:
+      context: .
+      dockerfile: Dockerfile

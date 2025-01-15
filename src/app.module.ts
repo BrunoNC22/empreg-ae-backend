@@ -10,6 +10,9 @@ import { CompanyService } from './application/services/Company.service'
 import { CompanyController } from './application/controllers/Company.controller'
 import { JobOpportiunity } from './infra/entities/JobOpportunity.entity'
 import { Location } from './infra/entities/value_objects/Location.entity'
+import { User } from './infra/entities/User.entity'
+import { UserService } from './application/services/User.service'
+import { UserController } from './application/controllers/User.controller'
 
 @Module({
   imports: [
@@ -31,12 +34,13 @@ import { Location } from './infra/entities/value_objects/Location.entity'
       }),
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([Company, JobOpportiunity, Location]),
+    TypeOrmModule.forFeature([Company, JobOpportiunity, Location, User]),
   ],
-  controllers: [JobOpportunityController, CompanyController],
+  controllers: [JobOpportunityController, CompanyController, UserController],
   providers: [
     JobOpportunityService,
     CompanyService,
+    UserService,
     { provide: APP_PIPE, useClass: ValidationPipe },
   ],
 })

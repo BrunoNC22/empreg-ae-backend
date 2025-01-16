@@ -13,6 +13,13 @@ import { Location } from './infra/entities/value_objects/Location.entity'
 import { User } from './infra/entities/User.entity'
 import { UserService } from './application/services/User.service'
 import { UserController } from './application/controllers/User.controller'
+import googleOauthConfig from './application/config/google-oauth.config'
+import { GoogleStrategy } from './application/strategies/google.strategy'
+import { AuthController } from './application/controllers/auth.controller'
+import { AuthService } from './application/services/Auth.service'
+import { JwtModule } from '@nestjs/jwt'
+import jwtConfig from './application/config/jwt.config'
+import { JwtStrategy } from './application/strategies/jwt.strategy'
 
 @Module({
   imports: [
@@ -35,12 +42,23 @@ import { UserController } from './application/controllers/User.controller'
       inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([Company, JobOpportiunity, Location, User]),
+    ConfigModule.forFeature(googleOauthConfig),
+    JwtModule.registerAsync(jwtConfig.asProvider()),
+    ConfigModule.forFeature(jwtConfig),
   ],
-  controllers: [JobOpportunityController, CompanyController, UserController],
+  controllers: [
+    JobOpportunityController,
+    CompanyController,
+    UserController,
+    AuthController,
+  ],
   providers: [
     JobOpportunityService,
     CompanyService,
     UserService,
+    AuthService,
+    GoogleStrategy,
+    JwtStrategy,
     { provide: APP_PIPE, useClass: ValidationPipe },
   ],
 })

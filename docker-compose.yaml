@@ -35,7 +35,7 @@ services:
 
   pgadmin4:
     image: dpage/pgadmin4
-    container_name: aws_pgadmin
+    container_name: pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_USER}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}

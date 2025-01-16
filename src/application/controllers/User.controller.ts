@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Post } from '@nestjs/common'
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common'
 import { UserService } from '../services/User.service'
 import { v4 } from 'uuid'
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger'
 import { CreateUserDto } from '../dto/UserDto'
+import { JwtAuthGuard } from '../guards/jwt-auth.guard'
 
 @ApiTags('Users')
 @Controller('users')
@@ -24,6 +25,7 @@ export class UserController {
     return createdCompany
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   getAll(): Promise<any> {
     return this.userService.findAll()

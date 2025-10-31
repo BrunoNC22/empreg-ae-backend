@@ -46,9 +46,14 @@ services:
       - iff
     depends_on:
       - pgsql
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
   
 networks:
   iff:
     driver: bridge
 volumes:
   postgres-vol:
+    driver: local
+  pgadmin-data:
+    driver: local

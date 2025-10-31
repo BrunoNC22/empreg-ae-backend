@@ -1,8 +1,9 @@
 import { INestApplication } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
-import { AppModule } from '../../src/app.module'
-import * as request from 'supertest'
-import { JobOpportunityService } from '../../src/application/services/JobOpportiunity.service'
+import { AppModule } from '../../src/main/app.module'
+import request = require('supertest')
+
+import { JobOpportunityService } from 'src/infra/services/JobOpportiunity.service'
 
 describe('JobOpportunityController', () => {
   let app: INestApplication

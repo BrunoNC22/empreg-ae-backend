@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common'
-import { JobOpportunityService } from '../services/JobOpportiunity.service'
-import { CreateJobOpportunityDto } from '../dto/JobOpportunityDto'
 import { ConfigService } from '@nestjs/config'
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger'
+import { CreateJobOpportunityDto } from '../adapters/rest/dto/JobOpportunityDto'
+import { JobOpportunityService } from '../services/JobOpportiunity.service'
 
 @ApiTags('job opportunity')
 @Controller('job-opportunities')

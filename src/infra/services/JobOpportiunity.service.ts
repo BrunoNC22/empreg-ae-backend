@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import JobOpportunity from '../../domain/entities/JobOpportunity'
-import { CreateJobOpportunityDto } from '../dto/JobOpportunityDto'
+import { CreateJobOpportunityDto } from '../../infra/adapters/rest/dto/JobOpportunityDto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { JobOpportiunity as JobOpportiunityEntity } from '../../infra/entities/JobOpportunity.entity'
 import { Repository } from 'typeorm'

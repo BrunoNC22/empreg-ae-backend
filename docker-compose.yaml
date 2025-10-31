@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   pgsql:
-    image: postgres
+    image: postgres:16
     ports:
       - ${DATABASE_PORT}:5432
     container_name: ${DATABASE_HOST}

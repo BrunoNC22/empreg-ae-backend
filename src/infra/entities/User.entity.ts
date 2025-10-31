@@ -10,4 +10,16 @@ export class User {
 
   @Column()
   public email: string
+
+  @Column({
+    type: 'int',
+    nullable: true,
+  })
+  public age: number | null
+
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
+  public city: string | null
 }

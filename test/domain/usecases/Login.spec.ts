@@ -1,82 +1,9 @@
-import { User } from 'src/domain/entities/User'
-import { AuthenticationOutputPort } from 'src/domain/ports/output/auth/AuthenticationOutputPort'
 import { UserNotFoundError } from 'src/domain/ports/output/db/UserNotFoundError'
-import { UserPersistanceOperationsOutputPort } from 'src/domain/ports/output/db/UserPersistanceOperationsOutputPort.ts'
-import { LoginPresenterOutputPort } from 'src/domain/ports/output/presenters/LoginPresenterOutputPort'
 import { Login } from 'src/domain/usecases/Login'
-
-class LoginPresenterMock implements LoginPresenterOutputPort {
-  defaultError: Error | null = null
-  successLoginProps: { token: string; user: User } | null = null
-  presentDefaultError(error: Error): void {
-    this.defaultError = error
-  }
-
-  presentSuccessLogin(props: { token: string; user: User }): void {
-    this.successLoginProps = props
-  }
-}
-
-type CreateFakeUserParams = {
-  name?: string
-  email?: string
-}
-
-const createFakeUser = ({
-  email = 'teste@mail.com',
-  name = 'teste',
-}: CreateFakeUserParams) => {
-  return new User(name, email)
-}
-
-class UserPersisterMock implements UserPersistanceOperationsOutputPort {
-  returnUser: User = createFakeUser({})
-  saveUser: User | null = null
-  id: string | null = null
-  email: string | null = null
-  getByEmailError: Error | null = null
-
-  constructor(_returnUser?: User, _getByEmailError?: Error) {
-    if (_returnUser) {
-      this.returnUser = _returnUser
-    }
-    if (_getByEmailError) {
-      this.getByEmailError = _getByEmailError
-    }
-  }
-
-  async getByEmail(email: string): Promise<User> {
-    this.email = email
-    if (this.getByEmailError) throw this.getByEmailError
-
-    return this.returnUser
-  }
-
-  async getById(id: string): Promise<User> {
-    this.id = id
-    return this.returnUser
-  }
-
-  async save(user: User): Promise<void> {
-    this.saveUser = user
-    return Promise.resolve()
-  }
-}
-
-class AuthenticationMock implements AuthenticationOutputPort {
-  jwtResponse: string = 'valid jwt'
-  userId: string | null = null
-  constructor(_jwtResponse?: string) {
-    if (_jwtResponse) {
-      this.jwtResponse = _jwtResponse
-    }
-  }
-
-  generateJwtFromUserId(userId: string): string {
-    this.userId = userId
-    return this.jwtResponse
-  }
-}
+import { AuthenticationMock } from 'test/infra/adapters/auth/AuthenticationMock'
+import { UserPersisterMock } from 'test/infra/adapters/db/UserPersisterMock'
+import { LoginPresenterMock } from 'test/infra/adapters/presenters/LoginPresenterMock'
+import { createFakeUser } from '../entities/createFakeUser'
 
 type CreateSutProps = {
   authMock?: AuthenticationMock
